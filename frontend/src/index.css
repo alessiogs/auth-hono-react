@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+html,
+#root {
+  @apply min-h-full;
+}
+
+body {
+  @apply font-mono;
+}
+
+input {
+  @apply border border-gray-400 px-2 py-1 rounded-lg;
+}
+
+button {
+  @apply p-2 border rounded-lg hover:opacity-70 transition-all duration-100 cursor-pointer;
+}
