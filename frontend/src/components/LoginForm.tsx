@@ -17,23 +17,27 @@ const LoginForm = () => {
     if (!formData.password) return setError("Insert password")
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
-      <label htmlFor="email">email</label>
-      <input
-        type="text"
-        name="email"
-        id="email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <label htmlFor="password">password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={formData.password}
-        onChange={handleChange}
-      />
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+      <label className="flex flex-col" htmlFor="email">
+        email
+        <input
+          type="text"
+          name="email"
+          id="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </label>
+      <label className="flex flex-col" htmlFor="password">
+        password
+        <input
+          type="password"
+          name="password"
+          id="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </label>
       <button type="submit">Login</button>
       {error}
     </form>
