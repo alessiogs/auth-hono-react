@@ -8,10 +8,10 @@ const LoginPage = () => {
       <div className="w-1/2 flex justify-center items-center">
         Image placeholder
       </div>
-      <div className="w-1/2 p-4 space-y-4">
-        <h3>Login</h3>
+      <div className="w-1/2 p-4 flex flex-col justify-center items-center">
+        <h3 className="text-right">Login</h3>
         <LoginForm />
-        <section className="flex flex-col text-center space-y-4">
+        <section className="flex flex-col text-center w-full md:max-w-2/3 space-y-4 mt-4">
           Not registered?
           <button onClick={() => navigate("/register")}>Register now</button>
         </section>

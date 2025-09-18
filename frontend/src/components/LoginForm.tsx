@@ -17,7 +17,10 @@ const LoginForm = () => {
     if (!formData.password) return setError("Insert password")
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col space-y-4 w-full md:max-w-2/3"
+    >
       <label className="flex flex-col" htmlFor="email">
         email
         <input
@@ -38,7 +41,9 @@ const LoginForm = () => {
           onChange={handleChange}
         />
       </label>
-      <button type="submit">Login</button>
+      <button className="mt-2" type="submit">
+        Login
+      </button>
       {error}
     </form>
   )

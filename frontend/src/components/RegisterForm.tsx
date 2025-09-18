@@ -23,7 +23,7 @@ const RegisterForm = () => {
     if (!formData.password) return setError("Insert password")
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col w-full md:max-w-2/3">
       <label htmlFor="email">email</label>
       <input
         type="text"
@@ -72,7 +72,9 @@ const RegisterForm = () => {
         value={formData.surname}
         onChange={handleChange}
       />
-      <button type="submit">Login</button>
+      <button className="mt-4" type="submit">
+        Register
+      </button>
       {error}
     </form>
   )

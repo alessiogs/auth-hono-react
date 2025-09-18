@@ -3,7 +3,7 @@
 html,
 body,
 #root {
-  @apply min-h-full bg-slate-800 text-slate-300;
+  @apply h-full min-h-full bg-slate-800 text-slate-300;
 }
 
 body {
