@@ -29,6 +29,7 @@ const RegisterForm = () => {
         type="text"
         name="email"
         id="email"
+        required
         value={formData.email}
         onChange={handleChange}
       />
@@ -37,6 +38,7 @@ const RegisterForm = () => {
         type="password"
         name="password"
         id="password"
+        required
         value={formData.password}
         onChange={handleChange}
       />
@@ -45,6 +47,7 @@ const RegisterForm = () => {
         type="password"
         name="repeatPassword"
         id="repeatPassword"
+        required
         value={formData.password}
         onChange={handleChange}
       />
@@ -53,6 +56,7 @@ const RegisterForm = () => {
         type="text"
         name="username"
         id="username"
+        required
         value={formData.username}
         onChange={handleChange}
       />

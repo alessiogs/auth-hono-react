@@ -1,4 +1,11 @@
+import { AxiosError } from "axios"
+import { useSetAtom } from "jotai"
 import { useState, type ChangeEvent, type FormEvent } from "react"
+import { useNavigate } from "react-router"
+import { api } from "../api/api"
+import usePrivateApi from "../hooks/usePrivateApi"
+import { accessTokenAtom } from "../store/auth"
+import { userAtom } from "../store/user"
 import type { LoginPayload } from "../types/user"
 
 const LoginForm = () => {
@@ -7,14 +14,31 @@ const LoginForm = () => {
     password: "",
   })
   const [error, setError] = useState<string>("")
+  const navigate = useNavigate()
+  const setToken = useSetAtom(accessTokenAtom)
+  const setUser = useSetAtom(userAtom)
+  const privateApi = usePrivateApi()
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!formData.email) return setError("Insert email")
     if (!formData.password) return setError("Insert password")
+    try {
+      const { data: tokenData } = await api.post("/auth/login", formData, {
+        withCredentials: true,
+      })
+      setToken(tokenData.accessToken)
+      const { data: userData } = await privateApi.get("/me/profile", {
+        headers: { Authorization: `Bearer ${tokenData.accessToken}` },
+      })
+      setUser(userData)
+      navigate("/")
+    } catch (error) {
+      if (error instanceof AxiosError) return setError(error.message)
+    }
   }
   return (
     <form

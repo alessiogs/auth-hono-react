@@ -32,7 +32,7 @@ me.get("/profile", (c) => {
 
   if (!row) return c.json({ error: "User not found" }, 404)
 
-  return c.json({ user: row })
+  return c.json(row)
 })
 
 export default me
