@@ -1,19 +1,18 @@
-import { useAtom, useSetAtom } from "jotai"
+import type { AxiosError } from "axios"
+import { useAtom } from "jotai"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import usePrivateApi from "../hooks/usePrivateApi"
 import { userAtom } from "../store/user"
-import tryCatch from "../utils/tryCatch"
-import { useState } from "react"
 import { type User } from "../types/user"
-import type { AxiosError } from "axios"
+import tryCatch from "../utils/tryCatch"
 
 const HomePage = () => {
-  const [user] = useAtom(userAtom)
+  const [user, setUser] = useAtom(userAtom)
   const navigate = useNavigate()
   const privateApi = usePrivateApi()
   const [error, setError] = useState("")
   const [count, setCount] = useState(0)
-  const setUser = useSetAtom(userAtom)
   const handleGetUserInfo = async () => {
     setError("")
     const { data, error } = await tryCatch(privateApi.get("/me/profile"))
@@ -21,7 +20,7 @@ const HomePage = () => {
     if (error) {
       const axiosError = error as AxiosError
       switch (axiosError?.response?.status) {
-        case 401:
+        case 403:
           setError("Invalid token")
           setUser(null)
           break

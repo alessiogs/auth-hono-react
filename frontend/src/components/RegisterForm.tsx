@@ -98,7 +98,7 @@ const RegisterForm = () => {
         value={formData.surname}
         onChange={handleChange}
       />
-      <button className="mt-4" type="submit">
+      <button className="mt-2" type="submit">
         Register
       </button>
       {error}

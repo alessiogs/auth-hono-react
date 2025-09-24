@@ -6,9 +6,13 @@ const useRefreshToken = () => {
   const setAccessToken = useSetAtom(accessTokenAtom)
 
   const refresh = async () => {
-    const { data } = await api.get("/auth/refresh", {
-      withCredentials: true,
-    })
+    const { data } = await api.post(
+      "/auth/refresh",
+      {},
+      {
+        withCredentials: true,
+      }
+    )
     setAccessToken(data.accessToken)
     return data.accessToken
   }

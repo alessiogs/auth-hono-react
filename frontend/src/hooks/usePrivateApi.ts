@@ -3,9 +3,11 @@ import { privateApi } from "../api/api"
 import { useAtomValue } from "jotai"
 import { accessTokenAtom } from "../store/auth"
 import useRefreshToken from "./useRefreshToken"
+import useLogout from "./useLogout"
 
 const usePrivateApi = () => {
   const refresh = useRefreshToken()
+  const logout = useLogout()
   const accessToken = useAtomValue(accessTokenAtom)
   const tokenRef = useRef(accessToken)
 
@@ -16,6 +18,7 @@ const usePrivateApi = () => {
   useEffect(() => {
     const requestIntercept = privateApi.interceptors.request.use(
       (config) => {
+        console.log("inside request interceptor", "token", tokenRef.current)
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${tokenRef.current}`
         }
@@ -27,12 +30,19 @@ const usePrivateApi = () => {
     const responseIntercept = privateApi.interceptors.response.use(
       (response) => response,
       async (error) => {
-        const prevRequest = error?.config
-        if (error?.response?.status === 403 && !prevRequest?.sent) {
-          prevRequest.sent = true
-          const newAccessToken = await refresh()
-          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`
-          return privateApi(prevRequest)
+        const previousRequest = error?.config
+        console.log("inside response interceptor", error)
+        if (error?.response?.status === 403 && !previousRequest?.sent) {
+          previousRequest.sent = true
+          try {
+            const newAccessToken = await refresh()
+            previousRequest.headers[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`
+            return privateApi(previousRequest)
+          } catch {
+            await logout()
+          }
         }
         return Promise.reject(error)
       }

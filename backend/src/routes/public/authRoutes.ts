@@ -1,6 +1,6 @@
 import { randomUUIDv7 } from "bun"
 import { Hono } from "hono"
-import { getSignedCookie, setSignedCookie } from "hono/cookie"
+import { deleteCookie, getSignedCookie, setSignedCookie } from "hono/cookie"
 import db from "../../db"
 import {
   comparePassword,
@@ -8,7 +8,7 @@ import {
   generateRefreshToken,
   hashPassword,
   hashToken,
-} from "../../utils/auth.utils"
+} from "../../utils/authUtils"
 
 const ACCESS_TOKEN_SECONDS = 10
 const REFRESH_TOKEN_SECONDS = 10
@@ -145,6 +145,7 @@ auth.post("/logout", async (c) => {
   const tokenHash = hashToken(refreshToken)
   db.run(`DELETE FROM refresh_tokens WHERE token_hash = ?`, [tokenHash])
 
+  deleteCookie(c, "refreshToken")
   return c.json({ success: true })
 })
 
