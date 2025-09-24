@@ -20,7 +20,7 @@ const useLogout = () => {
         }
       )
     )
-    if (error) console.log("error")
+    if (error) console.log(error)
   }
 
   return logout
