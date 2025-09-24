@@ -9,7 +9,7 @@ import { AxiosError } from "axios"
 
 const RegisterForm = () => {
   const navigate = useNavigate()
-  const setToken = useSetAtom(accessTokenAtom)
+  const setAccessToken = useSetAtom(accessTokenAtom)
   const setUser = useSetAtom(userAtom)
   const [formData, setFormData] = useState<
     RegisterPayload & { repeatedPassword: string }
@@ -34,7 +34,7 @@ const RegisterForm = () => {
       const { data: tokenData } = await api.post("/auth/register", formData, {
         withCredentials: true,
       })
-      setToken(tokenData.accessToken)
+      setAccessToken(tokenData.accessToken)
       const { data: userData } = await privateApi.get("/me/profile", {
         headers: { Authorization: `Bearer ${tokenData.accessToken}` },
       })

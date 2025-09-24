@@ -15,7 +15,7 @@ const LoginForm = () => {
   })
   const [error, setError] = useState<string>("")
   const navigate = useNavigate()
-  const setToken = useSetAtom(accessTokenAtom)
+  const setAccessToken = useSetAtom(accessTokenAtom)
   const setUser = useSetAtom(userAtom)
   const privateApi = usePrivateApi()
 
@@ -30,7 +30,7 @@ const LoginForm = () => {
       const { data: tokenData } = await api.post("/auth/login", formData, {
         withCredentials: true,
       })
-      setToken(tokenData.accessToken)
+      setAccessToken(tokenData.accessToken)
       const { data: userData } = await privateApi.get("/me/profile", {
         headers: { Authorization: `Bearer ${tokenData.accessToken}` },
       })
