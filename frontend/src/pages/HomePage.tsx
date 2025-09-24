@@ -22,7 +22,6 @@ const HomePage = () => {
       switch (axiosError?.response?.status) {
         case 403:
           setError("Invalid token")
-          setUser(null)
           break
 
         default:
